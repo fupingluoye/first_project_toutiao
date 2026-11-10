@@ -71,8 +71,14 @@ async def get_all_news_views():
 
 
 # 批量读取指定新闻的最新浏览量，一次往返；Redis 里没有的返回 None
+# 注意：不用 ZMSCORE（Redis 6.2+ 才有），改用 pipeline 打包多条 ZSCORE，
+# 同样是一次网络往返，但兼容 Redis 3.2 及以上的所有版本
 async def get_many_news_views(news_ids:list[int]):
     if not news_ids:
         return []
-    raw = await cc.redis_client.zmscore(f"{VIEWS_KEY}:", news_ids)
+    key = f"{VIEWS_KEY}:"
+    pipe = cc.redis_client.pipeline(transaction=False)
+    for news_id in news_ids:
+        pipe.zscore(key, news_id)
+    raw = await pipe.execute()
     return [None if score is None else int(score) for score in raw]
