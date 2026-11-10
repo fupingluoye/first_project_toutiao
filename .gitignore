@@ -1,0 +1,43 @@
+# ===== 机密配置（绝不提交）=====
+.env
+*.env.local
+.env.*
+!.env.example
+
+# ===== Python =====
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+build/
+dist/
+.venv/
+venv/
+env/
+
+# ===== 工具缓存 =====
+.ruff_cache/
+.pytest_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+
+# ===== 日志与临时文件 =====
+*.log
+*.tmp
+*.bak
+.DS_Store
+Thumbs.db
+
+# ===== IDE =====
+.idea/
+.vscode/
+*.swp
+
+# ===== 本地数据库文件 / 备份 =====
+*.db
+*.sqlite3
+*.sql.gz
+backup/
+
+# 注意：myalembic/versions/ 是迁移历史，必须提交，不要加进这里
