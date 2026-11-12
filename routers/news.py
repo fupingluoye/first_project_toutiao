@@ -63,8 +63,8 @@ async def get_news_detail(
     for item, score in zip(related_news, scores):
         if score is not None:
             item["views"] = score
-    # data 里的 key 全部 camelCase，与收藏/历史/用户接口同一套命名
-    data = NewsDetail(**news_detail)
+  
+    data = NewsDetail(**news_detail).model_dump(by_alias=True)
     data["relatedNews"] = jsonable_encoder(related_news)
     return success_response(data=data)
     # return {
